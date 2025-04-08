@@ -84,7 +84,7 @@ export default function HomeScreen(): JSX.Element {
         <TouchableOpacity>
           <Ionicons name="heart-outline" size={28} color="#555" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/usuario')}>
           <Ionicons name="person-outline" size={28} color="#555" />
         </TouchableOpacity>
         <TouchableOpacity>
