@@ -3,6 +3,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router, useRouter } from 'expo-router';
 
 export default function UsuarioScreen(): JSX.Element {
   return (
@@ -10,7 +11,9 @@ export default function UsuarioScreen(): JSX.Element {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Meu Perfil</Text>
       </View>
-
+      <TouchableOpacity onPress={() => router.replace('../(tabs)/doacao')}>
+        <Ionicons name="home" size={28} color="#555" />
+      </TouchableOpacity>
       <View style={styles.profileContainer}>
         <Image
           source={{ uri: 'https://i.pravatar.cc/150?img=10' }}
@@ -43,7 +46,19 @@ export default function UsuarioScreen(): JSX.Element {
         <Ionicons name="log-out-outline" size={20} color="#fff" />
         <Text style={styles.logoutText}>Sair</Text>
       </TouchableOpacity>
-    </View>
+
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/doacao')}>
+          <Ionicons name="gift" size={28} color="#555" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/usuario')}>
+          <Ionicons name="person-outline" size={28} color="#555" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/help')}>
+          <Ionicons name="help-circle" size={28} color="#555" />
+        </TouchableOpacity>
+      </View>
+    </View>    
   );
 }
 
@@ -130,5 +145,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 8,
     fontSize: 16,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: '#eee',
+    marginTop: 20,
   },
 });

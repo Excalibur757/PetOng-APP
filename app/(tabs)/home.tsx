@@ -66,7 +66,6 @@ export default function HomeScreen(): JSX.Element {
           </ScrollView>
         </View>
 
-        {/* PETS */}
         <View style={styles.petContainer}>
           {pets.map((pet) => (
             <View key={pet.id} style={styles.petCard}>
@@ -79,16 +78,16 @@ export default function HomeScreen(): JSX.Element {
         </View>
       </ScrollView>
 
-      {/* RODAPÉ */}
+      {/* RODAPÉ onPress={() => router.replace('../(tabs)/usuario')}*/}
       <View style={styles.footer}>
-        <TouchableOpacity>
-          <Ionicons name="heart-outline" size={28} color="#555" />
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/doacao')}>
+          <Ionicons name="gift" size={28} color="#555" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.replace('../(tabs)/usuario')}>
-          <Ionicons name="person-outline" size={28} color="#555" />
+          <Ionicons name="person" size={28} color="#555" />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons name="chatbox" size={28} color="#555" />
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/animal')}>
+          <Ionicons name="help-circle" size={28} color="#555" />
         </TouchableOpacity>
       </View>
     </View>

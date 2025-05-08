@@ -33,7 +33,6 @@ export default function OnboardingScreen() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
