@@ -25,3 +25,11 @@ cd petong-back
 npm install
 node app.js
 ```
+---
+### 🗂️ Para garantir que o aplicativo e o backend se comuniquem corretamente em ambiente local, mantenha as duas pastas no mesmo diretório raiz.
+
+```bash
+📁 meu-projeto/
+├── 📱 petong-app/     # Aplicativo mobile 
+└── 🖥️ petong-back/    # Backend 
+```
