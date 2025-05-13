@@ -1,7 +1,7 @@
 # PetOng
 Projeto Acadêmico com objetivo de desenvolver um aplicativo que auxilie nas dificuldades de uma ONG específica
 
-## ✅ **Backend (Node.js + Express API + Dotenv + Cors + Bcrypt + Nodemailer + Sqlite3 +)**
+## ✅ **Backend (Node.js + Express API + Dotenv + Cors + Bcrypt + Nodemailer + Sqlite3)**
 ---
 ## ✅ **Mobile (Expo + React Native + Router + Icons)**
 ---
