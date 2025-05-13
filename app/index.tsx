@@ -25,7 +25,7 @@ export default function OnboardingScreen() {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => router.push('/cadastro')} // Aqui é a mágica da navegação!
+        onPress={() => router.push('/login')} // Aqui é a mágica da navegação!
       >
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>

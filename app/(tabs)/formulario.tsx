@@ -1,9 +1,52 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function AdoptionScreen() {
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    nascimento: '',
+    profissao: '',
+    telefone: '',
+    endereco: '',
+    nomeAnimal: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (name: string, value: string) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleEnviar = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:3000/adoption-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        Alert.alert('Sucesso', data.message || 'Formulário enviado com sucesso!');
+        router.replace('../(tabs)/home');
+      } else {
+        Alert.alert('Erro', data.error || 'Erro ao enviar o formulário.');
+      }
+    } catch (err) {
+      Alert.alert('Erro', 'Erro na comunicação com o servidor.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancelar = () => {
+    router.replace('../(tabs)/home');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -26,26 +69,30 @@ export default function AdoptionScreen() {
         </Text>
 
         {/* Formulário */}
-        <TextInput style={styles.input} placeholder="Nome" />
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="Data de Nascimento" />
-        <TextInput style={styles.input} placeholder="Profissão" />
-        <TextInput style={styles.input} placeholder="E-mail" />
-        <TextInput style={styles.input} placeholder="Telefone/WhatsApp" />
-        <TextInput style={styles.input} placeholder="Endereço de onde o animal irá morar" />
-        <TextInput style={styles.input} placeholder="Nome do cãozinho que se interessa em adotar" />
-
+        <TextInput style={styles.input} placeholder="Nome" onChangeText={(value) => handleChange('nome', value)} />
+        <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => handleChange('email', value)} />
+        <TextInput style={styles.input} placeholder="Data de Nascimento" onChangeText={(value) => handleChange('nascimento', value)} />
+        <TextInput style={styles.input} placeholder="Profissão" onChangeText={(value) => handleChange('profissao', value)} />
+        <TextInput style={styles.input} placeholder="Telefone/WhatsApp" onChangeText={(value) => handleChange('telefone', value)} />
+        <TextInput style={styles.input} placeholder="Endereço de onde o animal irá morar" onChangeText={(value) => handleChange('endereco', value)} />
+        <TextInput style={styles.input} placeholder="Nome do cãozinho que se interessa em adotar" onChangeText={(value) => handleChange('nomeAnimal', value)} />
 
         {/* Botões */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttonGreen}>
-            <Text style={styles.buttonText}>Enviar</Text>
+          <TouchableOpacity
+            style={[styles.buttonGreen, loading && { backgroundColor: 'gray' }]}
+            onPress={handleEnviar}
+            disabled={loading}
+          >
+            <Text style={styles.buttonText}>{loading ? 'Enviando...' : 'Enviar'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRed}>
+          <TouchableOpacity style={[styles.buttonRed, loading && { opacity: 0.6 }]} onPress={handleCancelar} disabled={loading}>
             <Text style={styles.buttonText}>Cancelar</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* RODAPÉ */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => router.replace('../(tabs)/doacao')}>
           <Ionicons name="gift" size={28} color="#555" />
@@ -55,6 +102,9 @@ export default function AdoptionScreen() {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.replace('../(tabs)/help')}>
           <Ionicons name="help-circle" size={28} color="#555" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/home')}>
+          <Ionicons name="home" size={28} color="#555" />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -88,13 +138,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-  },
-  image: {
-    width: 180,
-    height: 180,
-    alignSelf: 'center',
-    marginVertical: 20,
-    resizeMode: 'contain',
   },
   buttonContainer: {
     flexDirection: 'row',

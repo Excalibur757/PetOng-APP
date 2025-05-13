@@ -1,58 +1,61 @@
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const SupportScreen: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+const Tela: React.FC = () => {
+  const [selectedOption, setSelectedOption] = useState('');
 
-  const handleSubmit = () => {
-    if (!name || !email || !message) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
+  const renderContent = () => {
+    if (selectedOption === 'fale') {
+      return (
+        <Text style={styles.infoText}>
+          Se houver qualquer problema relacionado ao aplicativo, envie um e-mail para:
+          {'\n'}suporte@appong.org
+        </Text>
+      );
+    } else if (selectedOption === 'info') {
+      return (
+        <Text style={styles.infoText}>
+          Para assuntos específicos, entre em contato com:
+          {'\n'}• adoções@ong.org
+          {'\n'}• voluntarios@ong.org
+          {'\n'}• eventos@ong.org
+        </Text>
+      );
     }
-
-    // Aqui você pode enviar os dados para uma API
-    Alert.alert('Suporte Enviado', 'Sua mensagem foi recebida. Entraremos em contato em breve.');
-    
-    // Limpa os campos
-    setName('');
-    setEmail('');
-    setMessage('');
+    return null;
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Suporte Técnico</Text>
+    <View style={styles.container}>
+      {/* Cabeçalho */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Suporte</Text>
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome"
-        value={name}
-        onChangeText={setName}
-      />
+      {/* Conteúdo principal */}
+      <View style={styles.content}>
+        <Image
+          source={require('../../assets/Cachorro.png')}
+          style={styles.dogImage}
+          resizeMode="contain"
+        />
+        <Text style={styles.title}>Como podemos ajudar você?</Text>
+        <Text style={styles.subtitle}>Escolha uma das opções abaixo para continuar:</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        value={email}
-        keyboardType="email-address"
-        onChangeText={setEmail}
-      />
+        <TouchableOpacity style={styles.button} onPress={() => setSelectedOption('fale')}>
+          <Text style={styles.buttonText}>Fale conosco</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => setSelectedOption('info')}>
+          <Text style={styles.buttonText}>Informações</Text>
+        </TouchableOpacity>
 
-      <TextInput
-        style={[styles.input, styles.textArea]}
-        placeholder="Descreva seu problema"
-        value={message}
-        onChangeText={setMessage}
-        multiline
-        numberOfLines={5}
-      />
+        {/* Conteúdo Condicional */}
+        {renderContent()}
+      </View>
 
-      <Button title="Enviar" onPress={handleSubmit} />
-
+      {/* Rodapé */}
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => router.replace('../(tabs)/doacao')}>
           <Ionicons name="gift" size={28} color="#555" />
@@ -63,43 +66,90 @@ const SupportScreen: React.FC = () => {
         <TouchableOpacity onPress={() => router.replace('../(tabs)/help')}>
           <Ionicons name="help-circle" size={28} color="#555" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('../(tabs)/home')}>
+          <Ionicons name="home" size={28} color="#555" />
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    paddingTop: 40,
-    backgroundColor: '#f8f9fa',
-    flexGrow: 1,
+    flex: 1,
+    backgroundColor: '#5D9CA9',
+  },
+  header: {
+    backgroundColor: '#3B5A6F',
+    paddingTop: 30,
+    paddingBottom: 15,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 30,
+  },
+  dogImage: {
+    width: 160,
+    height: 160,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginBottom: 20,
+    color: '#fff',
+    marginBottom: 8,
     textAlign: 'center',
   },
-  input: {
-    backgroundColor: '#fff',
-    padding: 12,
-    borderRadius: 8,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 15,
+  subtitle: {
+    fontSize: 16,
+    color: '#f0f0f0',
+    textAlign: 'center',
+    marginBottom: 20,
   },
-  textArea: {
-    height: 120,
-    textAlignVertical: 'top',
+  button: {
+    backgroundColor: '#3B5A6F',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    marginVertical: 10,
+    width: '80%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  infoText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+    backgroundColor: '#3B5A6F',
+    padding: 15,
+    borderRadius: 10,
   },
   footer: {
+    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
+    width: '100%',
     paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
+    backgroundColor: '#eee',
   },
 });
 
-export default SupportScreen;
+export default Tela;
